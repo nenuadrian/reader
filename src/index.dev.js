@@ -1,14 +1,4 @@
 import Reader from './common/reader';
-import pdf from '../demo/pdf';
-import epub from '../demo/epub';
-import snapshot from '../demo/snapshot';
-import zoteroFTL from '../locales/en-US/zotero.ftl';
-import readerFTL from '../locales/en-US/reader.ftl';
-import brandFTL from '../locales/en-US/brand.ftl';
-
-// Injected by Webpack in dev builds
-// eslint-disable-next-line no-process-env
-const ZOTERO_API_KEY = process.env.ZOTERO_API_KEY;
 
 window.dev = true;
 
@@ -18,29 +8,18 @@ async function createReader() {
 	}
 	let queryString = window.location.search;
 	let urlParams = new URLSearchParams(queryString);
-	let type = urlParams.get('type') || 'pdf';
-	let demo;
-	if (type === 'pdf') {
-		demo = pdf;
-	}
-	else if (type === 'epub') {
-		demo = epub;
-	}
-	else if (type === 'snapshot') {
-		demo = snapshot;
-	}
-	let res = await fetch(demo.fileName);
+	let url = urlParams.get('url');
+	let res = await fetch(url);
 	let reader = new Reader({
-		type,
-		ftl: [zoteroFTL, readerFTL, brandFTL],
+		type: 'pdf',
 		readOnly: false,
 		data: {
 			buf: new Uint8Array(await res.arrayBuffer()),
 			url: new URL('/', window.location).toString()
 		},
 		// rtl: true,
-		annotations: demo.annotations,
-		primaryViewState: demo.state,
+		annotations: [],
+		primaryViewState: {},
 		sidebarWidth: 240,
 		sidebarView: 'annotations', //thumbnails, outline
 		bottomPlaceholderHeight: null,

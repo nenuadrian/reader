@@ -3,11 +3,17 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Zotero Reader</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<% if (build === "zotero") { %>
 	<script src="resource://zotero/react.js"></script>
 	<script src="resource://zotero/react-dom.js"></script>
 	<script src="resource://zotero/prop-types.js"></script>
 	<% } %>
+	<style>
+		#pdf-container {
+  transform-origin: 0 0;
+}
+	</style>
 </head>
 <body class="sidebar-open">
 	<div id="reader-ui"></div>
